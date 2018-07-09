@@ -34,17 +34,17 @@ suite = {
         "artifactId" : "org.jacoco.report",
         "version" : "0.8.1",
       },
-      "dependencies" : ["JACOCOCORE", "ASM_DEBUG_ALL"],
+      "dependencies" : ["JACOCOCORE", "ASM"],
       "licence": "EPL-1.0",
     },
 
-    "ASM_DEBUG_ALL": {
-      "sha1": "5d1f7d145b0094c3955dff56d3119d7bd9807aff",
-      "sourceSha1": "d1ce213dc9f28569f908355e7abd16db1f331943",
+    "ASM": {
+      "sha1": "bc6fa6b19424bb9592fe43bbc20178f92d403105",
+      "sourceSha1": "066e3ec9f4ff0d70713868456142040111cc201c",
       "maven": {
         "groupId": "org.ow2.asm",
-        "artifactId": "asm-debug-all",
-        "version": "6.0_BETA",
+        "artifactId": "asm",
+        "version": "6.0",
       },
       "license": "BSD-new",
     },
