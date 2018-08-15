@@ -2134,7 +2134,10 @@ class LayoutDistribution(AbstractDistribution):
                 if not resolved_output_link_target.startswith(output):
                     abort("Cannot add symlink that escapes the archive: link from '{}' would point to '{}' which is not in '{}'".format(src, resolved_output_link_target, output), context=self)
                 archiver.add_link(link_target, dst, provenance)
-                os.symlink(link_target, absolute_destination)
+                try:
+                    os.symlink(link_target, absolute_destination)
+                except OSError as e:
+                    print e, link_target, absolute_destination
             elif isdir(src):
                 ensure_dir_exists(absolute_destination, os.lstat(src).st_mode)
                 for name in os.listdir(src):
@@ -2328,6 +2331,8 @@ class LayoutDistribution(AbstractDistribution):
                 os.symlink(link_target, absolute_destination)
             except IOError as e:
                 abort("Cannot create symlink. Target: '{}'; Destination: '{}'\nError: '{}'".format(link_target, absolute_destination, e))
+            except OSError as e:
+                print e, link_target, absolute_destination
         elif source_type == 'string':
             if destination.endswith('/'):
                 abort("Can not use `string` source with a destination ending with `/` ({})".format(destination), context=self)
