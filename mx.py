@@ -6105,6 +6105,7 @@ class GitConfig(VC):
     def __init__(self):
         VC.__init__(self, 'git', 'Git')
         self.missing = 'No Git executable found. You must install Git in order to proceed!'
+        self.clone_depth = get_env('MX_GIT_CLONE_DEPTH') or None
         self.object_cache_mode = get_env('MX_GIT_CACHE') or None
         if self.object_cache_mode not in [None, 'reference', 'dissociated', 'refcache']:
             abort("MX_GIT_CACHE was '{}' expected '', 'reference', 'dissociated' or 'refcache'")
@@ -6394,6 +6395,9 @@ class GitConfig(VC):
     def _clone(self, url, dest=None, branch=None, rev=None, abortOnError=True, **extra_args):
         hashed_url = hashlib.sha1(_encode(url)).hexdigest()
         cmd = ['git', 'clone']
+        if self.clone_depth:
+            log('appending --depth %s' % self.clone_depth)
+            cmd += ['--depth', self.clone_depth]
         if rev and self.object_cache_mode == 'refcache' and GitConfig._is_hash(rev):
             cache = self._local_cache_repo()
             if not self.exists(cache, rev):
